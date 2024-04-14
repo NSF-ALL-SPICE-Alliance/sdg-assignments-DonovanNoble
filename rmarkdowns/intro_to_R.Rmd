@@ -47,7 +47,14 @@ We used the `library()` function within a code chunk (discussed last video). We 
   
     - For mac: Cmd + option + i
     - For PC: Ctrl + alt + i
-  
+```{r}
+my_name <- "Donovan Noble"
+
+my_age <- 28
+
+my_age + 72 - 1
+```
+ 
   - The beginning of a code chunk will always start with three dashes followed by {r} and end with three dashes
 
 
@@ -96,6 +103,8 @@ Let's practice creating some variables:
 ```{r}
 my_name <- "Victoria DelaCruz" # character strings are stored within quotations
 my_name # run the name of your variable to see the output
+
+my_name <- "Donovan Noble"
 ```
 
 2. my_age
@@ -103,6 +112,8 @@ my_name # run the name of your variable to see the output
 my_age = 20 # numeric values do not need any quotations
 my_age # run the name of your variable to see the output
 my_age + 5 # how old will you be in 5 years?
+
+my_age = 28
 ```
 
 #### <span style="color: red;">Challenge 1</span>
