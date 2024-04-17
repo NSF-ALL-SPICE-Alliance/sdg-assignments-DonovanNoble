@@ -32,9 +32,13 @@ Welcome to R! We'll go over some brief introductory information on how to get st
 
 ### Packages and Libraries
 One of the most helpful tools to an R programmer are R packages! In a nutshell, an R package is a toolbox that can have a variety of things that can be useful to you (datasets, functions, etc.). Packages are stored in a *library* in R. You already have some R packages installed - let's use the `library()` function to see which packages you have. 
-
+```
 ```{r}
 library()
+system.file (packages = "tidyverse")
+```
+
+system.file(packages = "tidyverse")
 ```
 
 A new window should have opened up with a list of packages and a short description! 
@@ -49,10 +53,12 @@ We used the `library()` function within a code chunk (discussed last video). We 
     - For PC: Ctrl + alt + i
 ```{r}
 my_name <- "Donovan Noble"
-
+rm(my_name)
+   
 my_age <- 28
 
-my_age + 72 - 1
+my_age +5
+
 ```
  
   - The beginning of a code chunk will always start with three dashes followed by {r} and end with three dashes
@@ -292,6 +298,10 @@ The next step is cleaning and manipulating data. There are different ways to do 
 *1. select()*
 
 Select is a function used to subset or select columns in your R data frame. Let's try this out by selecting the SDG 3 and SDG 4 scores.
+```{r}
+library("tidyverse")
+```
+
 
 ```{r}
 sdr_data %>% 
@@ -304,6 +314,10 @@ What if we want to subset specific rows? We can do this by using the filter func
 
 #### <span style="color: red;">Challenge 2</span>
 Using the `select()` function, select two new SDG goal scores. Assign it to a variable named `SDG_scores`. 
+```{r}
+sdr_data %>%
+  select(goal_15_score, goal_16_score)
+```
 
 *2. filter()*
 
@@ -314,6 +328,11 @@ In order to do this, we write out the column name "regions_used_for_the_sdr" fol
 ```{r}
 sdr_data %>% 
   filter(regions_used_for_the_sdr == "Oceania")
+```
+```{r}
+sdr_data %>%
+  select(goal_15_score, goal_16_score)
+
 ```
 
 Notes: 
