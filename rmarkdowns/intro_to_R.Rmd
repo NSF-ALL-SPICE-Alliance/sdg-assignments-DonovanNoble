@@ -331,6 +331,11 @@ sdr_data %>%
 ```
 ```{r}
 sdr_data %>%
+  filter(regions_used_for_the_sdr == "Sub-Saharan Africa")
+```
+
+```{r}
+sdr_data %>%
   select(goal_15_score, goal_16_score)
 
 ```

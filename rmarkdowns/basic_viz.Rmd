@@ -100,7 +100,7 @@ Awesome! What if we wanted to color the points/countries based on their region? 
 
 ```{r}
 ggplot(data = sdr_data, aes(x= goal_3_score, y = goal_4_score, color = regions_used_for_the_sdr)) +
-  geom_point()
+  geom_boxplot()
 ```
 
 Interpretation:
@@ -130,7 +130,12 @@ Cool! It seems that the darkest blue points (countries with the lowest SDG 5 sco
 
 #### <span style="color: red;">Challenge 1</span>
 Create a scatterplot using two different SDG scores. Then, color the points by using a third SDG score. In a couple of sentences, describe what you see.
-
+```{r}
+ggplot(data = sdr_data, aes(x= goal_14_score, y = goal_15_score, color = goal_16_score))+
+  geom_point()
+```
+Interpretation:
+In this graph within goal score 14 to 16. All scores are mostly targeted around 60 to 70. There are a few other chunks of scores but as we can see there is not much for achieving 100 in these goals. 
 ### Bar Chart
 
 When should we use a **bar chart**?
@@ -159,7 +164,7 @@ lac_sdr_data <- sdr_data %>%
 Now let's make a bar chart from our new dataframe `lac_sdr_data`
 
 ```{r}
-ggplot(lac_sdr_data, aes(x= goal_3_score, y = country)) +
+ggplot(lac_sdr_data, aes(x= goal_3_score, y = country, color = goal_6_score)) +
   geom_bar(stat = "identity") 
 ```
 
@@ -190,6 +195,17 @@ As we can see in the Oceania region, most Countries do not have the necessary da
 #### <span style="color: red;">Challenge 2</span>
 Create a new bar chart with countries only from the MENA region. 
 
+```{r}
+MENA_sdr_data <- sdr_data %>% 
+  filter(regions_used_for_the_sdr == "MENA")
+```
+
+```{r}
+ggplot(MENA_sdr_data, aes(x= goal_3_score, y = country, color = goal_5_score)) +
+  geom_boxplot()
+```
+Interpertation:
+According to this graph on the scores from only the MENA region, all the country are able to reach above a score of 50 besides Yemen. United Arab Emirates, Qatar, Kuwait, and Bahrain are the top leading countries in keeping close to their goals. 
 ### Histogram
 
 When do we use a **histogram**?
@@ -224,3 +240,13 @@ Countries that fall in the higher end of the Goal 4 spectrum belong to the OECD 
 
 #### <span style="color: red;">Challenge 3</span>
 Make a histogram for a different SDG score. Then, fill by region. In a couple of sentences, describe any interesting trends or what you notice from your new histogram.
+```{r}
+OECD_sdr_data <- sdr_data %>% 
+  filter(regions_used_for_the_sdr == "OECD")
+```
+```{r}
+ggplot(OECD_sdr_data, aes(x = goal_4_score, fill=regions_used_for_the_sdr)) + 
+  geom_histogram(bins=33, color="black")
+```
+Interpretation:
+This is a graph based on the region of OECD. This region has a lot of different countries within in, and as a collective most countries in this region is reaching high scores. 
