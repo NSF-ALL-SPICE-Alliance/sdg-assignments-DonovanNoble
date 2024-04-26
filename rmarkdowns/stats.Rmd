@@ -19,6 +19,12 @@ output:
 ### Setup
 
 
+```{r}
+install.packages("plotly")
+```
+```{r}
+library(plotly)
+```
 
 
 ```{r setup, include=FALSE}
@@ -29,6 +35,7 @@ library(ggpubr)
 library(janitor)
 library(ggcorrplot)
 library(vembedr)
+
 ```
 
 
@@ -196,6 +203,8 @@ To circle back and reinforce how the linear regression (line drawn through our s
   
   - What does this look like on scatter plot?
   
+
+  
 ```{r, warning=FALSE, message=FALSE}
 ggplot(sdr_data, aes(x = goal_12_score, 
                      y = goal_9_score)) +
@@ -205,6 +214,20 @@ ggplot(sdr_data, aes(x = goal_12_score,
   theme_minimal() 
 
 ```
+
+```{r}
+sdg_correlation <- ggplot(sdr_data, aes(x = goal_6_score, 
+                     y = goal_7_score, label = country)) +
+  geom_point() +
+  geom_smooth() +
+  stat_cor(output.type = "text", label.sep = '\n') +
+  theme_minimal()
+ggplotly(sdg_correlation)
+```
+INTERPRETATION:
+In this graph, it shows that these two goals have a positive correlation. Goal 6 is clean water and sanitation, goal 7 is affordable clean energy. Both goals are very similar in affecting the environment. Most countries are very close in scores between goals, which is the reason for a overall positive correlation. There are a few outlier countries, such as; Chad, South Sudan, Iceland, and Uruguay. These are the countries that have a wider range of scores between goals. 
+
+
 
 ### <span style="color: red;">Challenge 1</span>
 
