@@ -1,0 +1,153 @@
+---
+title: "Final Project"
+author: "Donovan Noble"
+date: "2024-04-28"
+output: html_document
+---
+
+Make sure to install all these packages for the functions of this part of the course, if you dont already have it installed.
+```{r}
+# knitr::opts_chunk$set(echo = TRUE)
+# install.packages(tidyverse)
+# install.packages(here)
+# install.packages(janitor)
+# install.packages(vembedr)
+# install.packages(plotly)
+# install.packages(rnaturalearth)
+# install.packages(leaflet)
+# install.packages(sf)
+# install.packages(ggcorplot)
+# install.packages(ggpubr)
+# install.packages(naniar)
+# install.packages(cluster)
+# install.packages(randomForest)
+# install.packages(missRanger)
+# install.packages(factoextra)
+# install.packages(pdp)
+```
+Open up all the Libraries you just installed.
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(vembedr)
+library(plotly)
+library(rnaturalearth)
+library(leaflet)
+library(sf)
+library(ggcorrplot)
+library(ggpubr)
+library(naniar)
+library(cluster)
+library(randomForest)
+library(missRanger)
+library(factoextra)
+library(pdp)
+library(ggplot2)
+```
+Install the SDR data
+```{r}
+sdr_data <- read_csv(here("data/SDR-2023-Data.csv"))
+```
+Do not forget to clean up your data.
+```{r}
+sdr_data <- sdr_data %>% 
+  clean_names()
+```
+In this Project I will be comparing two regions scores of Early Education, and creating visualizations of each region. I will need to create two seperate graphs in order to see the scores of most regions and the scores of the countries within each region. Lets find out the the scores for each region and the Scores for each country in those regions, and find the similarities and outliers. We should also see if both countries working together could be a positive or negative correlation.
+
+
+
+I filtered out two specific regions. OECD and LAC Regions.We will have to create two data chunks to get both sdr data for both regions.
+```{r}
+LAC_sdr_data <- sdr_data %>% 
+  filter(regions_used_for_the_sdr == "LAC")
+```
+
+```{r}
+OECD_sdr_data <- sdr_data %>% 
+  filter(regions_used_for_the_sdr == "OECD")
+```
+Now lets create our first visualization with all regions and make it interactive so we can see the number of countries within that score for SDG Score 4 Early Education.
+```{r}
+goal_4_histogram <- ggplot(sdr_data, aes(x = normalized_score_sdg4_earlyedu, fill=regions_used_for_the_sdr)) +
+  geom_histogram() +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  labs(title = "Distributions of SDG 4 Scores Early Education",
+       x = "SDG 4 Score Early EDU",
+       y = "Number of Countries",
+       fill = "Region")
+
+ggplotly(goal_4_histogram)
+```
+Interpretation: As we can see, we are able to interact with the data graph. It is showing that a lot of countries within the region of Sub-Saharan Africa have a score closer to 0.There is more than half of all the countries in the Sub-Saharan Africa region with a score of 0 percent children aged 4-6 are participating in early education. This Data is showing that the countries within the E. Europe & C. Asia have a variety of scores and has less countries within the region. The Countries in the OECD region are all at a score closer to 75 percent and higher in children aged 4-6 years old participating.You can see that there is more than half of the countries in the OECD region with a score over 90 percent of children aged 4-6 years old participating in early education. There is 12 countries in the E. Europe & C. Asia region that has a score of over 75 percent children aged 4-6 years old are participating in Early Education. Make sure to interact with the data and count the number of countries within each color region.
+
+
+Now lets create an interactive scatter plot on the OECD region to get a better understanding on the SDG goal score 4 Early Education. I have created a graph to show all the countries in the specific region. 
+
+
+```{r}
+goal_4_scatter <- ggplot(OECD_sdr_data, aes(x = normalized_score_sdg4_earlyedu, y = country, label = country)) +
+  geom_point() +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  labs(title = "Distributions of SDG 4 Scores Early Education",
+       x = "SDG 4 Score Early EDU",
+       y = "Number of Countries",
+       fill = "Region")
+
+ggplotly(goal_4_scatter)
+```
+
+
+Interpretation:
+Now lets take a closer look at the SDG goal 4 score for early education for children 4 to 6 years old. As I am able to look much closer at the data for not only region specifically OECd but we are able to see each countries scores. Of course by first glance we can tell the similarities as well as those that are outliers. In this region OECD, We can easily see that no country in this region is below a 50 percent score for children who have early education from ages 4 to 6. If we take a look at The top countries with the highest percentage in early education for children from 4 - 6 years old are United Kingdom, Israel, and Denmark. These countries you can see that kinda seem to be the outliers for the higher percentile range. You are able to quickly see that more than half of the countries in this region have a percentage 90 and 100 percent. This tells me that this region is doing pretty well with providing early education for children who are 4 to 6 years old. The 2 outlier countries being Turkiye and Australia has a percentage of 75 percent or less.  
+
+Here we are now creating a scatter plot just like we did with the OECD region but lets take a look at the LAC region with there goal 4 score for Early Education. 
+
+```{r}
+goal_4_scatter <- ggplot(LAC_sdr_data, aes(x = normalized_score_sdg4_earlyedu, y = country, label = country)) +
+    geom_point() +
+    theme_minimal() +
+    scale_fill_viridis_d() +
+    labs(title = "Distributions of SDG 4 Scores Early Education",
+         x = "SDG 4 Score Early EDU",
+         y = "Number of Countries",
+         fill = "Region")
+  
+  ggplotly(goal_4_scatter)
+```
+
+Interpretation:
+According to this Visualization, we can already se that there are less countries within this region. In the LAC region there are 29 countries. The first thing we see is those two dots over on the left hand side, these two countries are The Bahamas, and Belize. When I go to interact with themit clearly shows me the percentage of children 4 to 6 years old who get early education, which seems very low. The good news about this graph is that we can tell that more than half of the countries in this region atleast have a score of 50 percent or better. The outliers than is shown would be Belize and The Bahamas. Take a look at how many countries are at the top with a higher percentage, we can see that there is only two. These two countries are Argentina, and Peru. Agentina has 100 percent of children in there country who is 4 to 6 years old recieving early education. Peru is scoring at 99.769 percent of children recieving early education. These two countries would also be included in being an outlier only because it is clearly seen that the rest of the countries have a wider gap to them. By looking at this graph we can see that there are children in each country who are still not recieving early education except for Argentina, so right on Argentina. 
+
+
+Lets join the OECD and LAC region, that way we can have a better focus on the comparison's between the 2. you can join the 2 regions by using the left_join function. In order to join the 2 we need to go to both dataframes and choose something both have. So I chose country categorty in order to join the 2.
+
+```{r}
+new_join_sdr_data <- full_join(LAC_sdr_data, OECD_sdr_data, by = "country")
+```
+
+
+```{r}
+sdg_correlation <- ggplot(sdr_data, aes(x = normalized_score_sdg4_earlyedu, 
+                     y = poverty_headcount_ratio_at_3_65_day_2017_ppp_percent, label = country)) +
+  geom_point() +
+  geom_smooth() +
+  stat_cor(output.type = "text", label.sep = '\n') +
+  theme_minimal() +
+  labs(y = "Poverty Headcount",
+       x = "SDG 4 Early Education")
+
+ggplotly(sdg_correlation)
+```
+
+
+
+
+Interpretation:
+According to our visualization, You can clearly see a low negative correlation.This is showing a -0.22 correlation. As we look at this visualization you can see how wide the scores go with a high percentage of early education and the ratio of poverty level.You can see the some of the outliers will be South Sudan, and Yemen have a High percentage of poverty level with people getting paid less than $3.65 and also a very low percentage of early education. When you look at Venezuela and Togo you can see these are also outliers. Although these outliers are over 50% poverty count but also have a over 75% early education score. This visualization is showing that the poverty headcount score is very high in some places. The score for early education in most countries are providing early education. The higher score in participating countries with early education for children between 4-6 years old have a lower headcount of poverty.
+
+Challenge # 1 
+Create a visualization of two different regions and find the correlation between the two for a specific score. Find out what the sdg 4 early education score. When creating this visualization you want to create an interactive map so that we can view the scores for each country. 
